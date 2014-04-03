@@ -24,9 +24,6 @@ class Command(NoArgsCommand):
 			
 			ids = [str(x['id']).replace('L', '') for x in Object.objects.values('id')]	
 			
-			msg, msg2 = '', ''
-			count_before = Object.objects.values('id').count()
-			
 			for object in xmlDocTree.iter('object'):
 				kwargs, photos = {}, ''
 
@@ -42,11 +39,7 @@ class Command(NoArgsCommand):
 						else:
 							kwargs[field.tag] = field.text
 					object = Object( **kwargs ).save()
-					msg2 = 'База Обновлена'	
-				else:
-					msg = 'База Актуальна'
-
-			count_after = Object.objects.values('id').count()	
+			
 			total_work_time = time.time() - start_time
 			return 'Время работы: {0} cек.'.format(total_work_time)
 		
